@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xmlns:context="http://www.springframework.org/schema/context"
+
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- <context:annotation-config/> <bean id="orderService" class="com.pluralsight.cfxdemo.orders.OrderServiceImpl"></bean> -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<context:component-scan
+		base-package="com.pluralsight.cfxdemo" />
+
+	<bean id="defaultOrdersEndpoint"
+		class="com.pluralsight.cfxdemo.orders.DefaultOrdersEndpoint"/>
+
+	<jaxws:server id="testOrdersServer"
+		address="http://localhost:8080/apache-cfx-jax-ws-demo/services/orders"
+		serviceBean="defaultOrdersEndpoint"
+		serviceClass="com.pluralsight.service.orders.Orders">
+
+		<jaxws:inInterceptors>
+			<ref bean="logginInInterceptor" />
+		</jaxws:inInterceptors>
+
+		<jaxws:outInterceptors>
+			<ref bean="loggingOutInterceptor" />
+		</jaxws:outInterceptors>
+	</jaxws:server>
+
+	<bean id="loggingInInterceptor"
+		class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+	<bean id="loggingOutInterceptor"
+		class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+		
+	<jaxws:client id="testOrdersClient"
+		address="http://localhost:8080/apache-cfx-jax-ws-demo/services/orders" 
+		serviceClass="com.pluralsight.service.orders.Orders">
+
+		<jaxws:inInterceptors>
+			<ref bean="logginInInterceptor" />
+		</jaxws:inInterceptors>
+
+		<jaxws:outInterceptors>
+			<ref bean="loggingOutInterceptor" />
+		</jaxws:outInterceptors>
+	</jaxws:client>
+
+
+
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	
+	xmlns:context="http://www.springframework.org/schema/context"
+	
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+<!-- <context:annotation-config/>
+<bean id="orderService" class="com.pluralsight.cfxdemo.orders.OrderServiceImpl"></bean> -->
+
+<context:component-scan
+  base-package="com.pluralsight.cfxdemo"/>
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<jaxws:endpoint 
+	  id="helloWorld" 
+	  implementor="com.pluralsight.cfxdemo.HelloWorldImpl" 
+	  address="/HelloWorld" />
+	  
+	  	<jaxws:endpoint id="orders"
+		implementor="com.pluralsight.cfxdemo.orders.DefaultOrdersEndpoint"
+		address="/services/orders">
+	</jaxws:endpoint>
+	  
+</beans>
